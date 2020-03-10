@@ -1,0 +1,111 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="zeam-form-plone">
+
+  <div metal:fill-slot="top_slot">
+    <tal:border tal:condition="not:view/plonePageBorder">
+      <tal:disable
+         tal:define="dummy python:request.set('disable_border', 1)" />
+    </tal:border>
+  </div>
+
+  <div metal:fill-slot="main">
+
+    <div tal:replace="structure provider:plone.abovecontenttitle" />
+
+    <h1 class="documentFirstHeading"
+        tal:content="context/Title" />
+
+    <div tal:replace="structure provider:plone.belowcontenttitle" />
+    <div class="portalMessage"
+         tal:condition="view/status" tal:content="view/status">
+    </div>
+
+    <form action="." method="post" novalidate="novalidate" tal:attributes="action request/getURL" 
+          class="enableUnloadProtection zeam-form">
+
+      <!--
+      <h2 tal:condition="view/label" tal:content="view/label">
+        Form title
+      </h2>
+
+      <p tal:condition="view/description" tal:content="view/description">
+        Form description
+      </p>
+      -->
+
+      <h2>Vorläufiger Warenkorb</h2>
+
+      <dl class="portalMessage error"
+          tal:repeat="error view/formErrors">
+          <dt tal:content="error/title"/>
+          <dd> Bitte korrigieren Sie die angezeigten Fehler. </dd>
+      </dl>
+
+      <div class="row">
+        <div tal:define="widget python: view.fieldWidgets.get('bestellung')">
+          <div metal:use-macro="context/@@my_fields/myfields"/>
+        </div>
+      </div>
+
+      <table class="mp-desktop-table table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th class="checkbox-cart"></th>
+            <th>Artikel</th>
+            <th>Menge</th>
+            <th>Preis für Mitglieder</th>
+            <th class="col-sm-2">Preis für Nicht-Mitglieder</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="checkbox-cart"><input type="checkbox" /></td>
+	    <td>
+              <div class="media col-lg-9">
+                <a class="col-xs-12" href="#" target="_blank">
+                  <div class="artikel-bild col-xs-12 col-sm-3">
+		  </div>
+		</a>
+	      </div>
+	    </td>
+	    <td class="counter col-sm-3 col-md-2">
+              <div class="input-group">
+                <span class="input-group-btn">
+                  <button type="button" id="down" class="btn btn-number" data-type="minus" data-field="quant[1]">
+                    <span class="glyphicon glyphicon-minus"></span>
+                  </button>
+                </span>
+                <input type="text" name="quant[1]" id="qty" class="form-control input-number" value="1" min="1" max="99" />
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-number">
+                    <span class="glyphicon glyphicon-plus"></span>
+                  </button>
+                </span>
+              </div>
+            </td>
+            <td class="text-right">1,00€</td>
+            <td class="text-right">3,00€</td>
+	  </tr>
+	</table>  
+
+
+      
+      <div class="actions">
+        <span class="action" tal:repeat="widget view/actionWidgets">
+          <tal:widget tal:content="structure widget/render" />
+        </span>
+      </div>
+      
+      <div class="row">
+        <a style="margin-top: 10px; margin-left:8px" class="btn btn-default" 
+           href="#" tal:attributes="href python: context.absolute_url()" role="button">Weitere Artikel auswählen</a>
+      </div>
+
+    </form>
+
+    <div tal:replace="structure provider:plone.belowcontentbody" />
+
+  </div>
+
+</html>

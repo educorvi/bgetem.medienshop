@@ -1,0 +1,182 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  metal:use-macro="context/main_template/macros/master">
+<head>
+
+  <metal:cssslot fill-slot="style_slot">
+      <link rel="stylesheet" type="text/css"
+        tal:define="navroot context/@@plone_portal_state/navigation_root_url"
+        tal:attributes="href string:${navroot}/++resource++ukbg.medienportal/css/medien.css"
+        />
+  </metal:cssslot>
+
+  <metal:javascriptslot fill-slot="javascript_head_slot"
+      tal:define="navroot context/@@plone_portal_state/navigation_root_url">
+    <script tal:attributes="src string:${navroot}/++resource++ukbg.medienportal/js/medien.js"></script>
+  </metal:javascriptslot>
+
+  <script>
+    $(document).bind('ready', function() {
+
+    $('div#medienshop_etem_versand').hide();
+
+    if ($('input#form-field-versand').prop('checked')) {
+        $('div#medienshop_etem_versand').show();
+    }
+
+    }) 
+  </script>
+
+</head>
+
+
+  <metal:block fill-slot="content-core">
+<div class="mp-wrapper">
+   <h2>Benutzer für das Medienportal registrieren</h2>
+
+     <p class="documentDescription">Bitte füllen Sie das folgende Formular aus, um mit der Bestellung fortzufahren.<br/>
+       <span style="color:#d40f14">Mit (*) gekennzeichnete Felder müssen ausgefüllt werden.</span></p>
+       <form enctype="multipart/form-data" method="post" novalidate="novalidate"
+             action="." tal:attributes="action view/formurl">
+
+       <div class="form-group">
+
+         <h3>Rechnungsanschrift</h3>
+
+         <div tal:define="widget python: view.fieldWidgets.get('form.field.anrede')">
+           <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+         </div>
+
+         <div tal:define="widget python: view.fieldWidgets.get('form.field.name1')">
+           <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+         </div>
+
+         <div tal:define="widget python: view.fieldWidgets.get('form.field.name2')">
+           <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+         </div>
+
+         <div tal:define="widget python: view.fieldWidgets.get('form.field.name3')">
+           <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+         </div>
+
+         <div tal:define="widget python: view.fieldWidgets.get('form.field.name4')">
+           <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+         </div>
+
+         <div tal:define="widget python: view.fieldWidgets.get('form.field.strasse')">
+           <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+         </div>
+
+         <div tal:define="widget python: view.fieldWidgets.get('form.field.plz')">
+           <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+         </div>
+
+         <div tal:define="widget python: view.fieldWidgets.get('form.field.meinort')">
+           <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+         </div>
+
+         <div tal:define="widget python: view.fieldWidgets.get('form.field.land')">
+           <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+         </div>
+
+         <div tal:define="widget python: view.fieldWidgets.get('form.field.versand')">
+           <div metal:use-macro="here/@@formmacros/macros/bootstrapcheckbox" />
+         </div>
+
+         </div>
+
+
+         <div style="margin-top:80px;margin-left:30px;margin-right:30px;" class="form-group" id="medienshop_etem_versand">
+
+	 <h3>Versandanschrift</h3>
+
+	 <div tal:define="widget python: view.fieldWidgets.get('form.field.anrede_v')">
+	   <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+	 </div>
+
+	 <div tal:define="widget python: view.fieldWidgets.get('form.field.name1_v')">
+	   <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+	 </div>
+
+	 <div tal:define="widget python: view.fieldWidgets.get('form.field.name2_v')">
+	   <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+	 </div>
+
+	 <div tal:define="widget python: view.fieldWidgets.get('form.field.name3_v')">
+	   <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+	 </div>
+
+	 <div tal:define="widget python: view.fieldWidgets.get('form.field.name4_v')">
+	   <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+	 </div>
+
+	 <div tal:define="widget python: view.fieldWidgets.get('form.field.strasse_v')">
+	   <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+	 </div>
+
+	 <div tal:define="widget python: view.fieldWidgets.get('form.field.plz_v')">
+	   <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+	 </div>
+
+	 <div tal:define="widget python: view.fieldWidgets.get('form.field.ort_v')">
+	   <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+	 </div>
+
+	 <div tal:define="widget python: view.fieldWidgets.get('form.field.land_v')">
+	   <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+	 </div>
+
+         </div>
+
+         <div class="form-group">
+
+         <div tal:define="widget python: view.fieldWidgets.get('form.field.email')">
+           <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+         </div>
+
+         <div tal:define="widget python: view.fieldWidgets.get('form.field.telefon')">
+           <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+         </div>
+
+         <div tal:define="widget python: view.fieldWidgets.get('form.field.mitnr')">
+           <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+         </div>
+
+         <div tal:define="widget python: view.fieldWidgets.get('form.field.passwort')">
+           <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+         </div>
+
+         <div tal:define="widget python: view.fieldWidgets.get('form.field.passwort2')">
+           <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+         </div>
+
+         </div>
+
+        <div class="form-group">
+
+          <div tal:define="widget python: view.fieldWidgets.get('form.field.datenschutz')">
+            <div metal:use-macro="here/@@formmacros/macros/bootstrapcheckbox" />
+          </div>
+
+          <div style="margin-bottom: 10px;">
+            <a style="margin-bottom:10px;" class="internal-link" href="https://www.bgetem.de/die-bgetem/datenschutz">Datenschutzerklärung der BG ETEM</a>
+          </div>
+
+       </div>
+
+
+         <div class="actions">
+           <span class="action" tal:repeat="widget view/actionWidgets">
+             <tal:widget tal:content="structure widget/render" />
+           </span>
+         </div>
+
+       </form>
+
+</div>
+
+  </metal:block>
+
+</html>

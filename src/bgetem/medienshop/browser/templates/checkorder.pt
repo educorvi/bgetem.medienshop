@@ -1,0 +1,221 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  metal:use-macro="context/main_template/macros/master">
+<head>
+
+  <metal:cssslot fill-slot="style_slot">
+      <link rel="stylesheet" type="text/css"
+        tal:define="navroot context/@@plone_portal_state/navigation_root_url"
+        tal:attributes="href string:${navroot}/++resource++ukbg.medienportal/css/medien.css"
+        />
+  </metal:cssslot>
+
+  <metal:javascriptslot fill-slot="javascript_head_slot"
+      tal:define="navroot context/@@plone_portal_state/navigation_root_url">
+    <script tal:attributes="src string:${navroot}/++resource++ukbg.medienportal/js/medien.js"></script>
+  </metal:javascriptslot>
+
+</head>
+
+  <metal:block fill-slot="content-core">
+	<div class="mp-wrapper"
+             tal:define="data view/userdata;
+                         rechnung python:data.get('item')[0];
+                         versand python:data.get('item')[1];
+                         artlist view/artlist;
+                         gesamt view/gesamt;
+                         gesamt_mem view/gesamt_mem;
+                         formurl view/formurl">
+	
+		<div class="row">
+                        <h2>Verbindlich bestellen</h2>
+                        <h3 tal:condition="view/verif">Ihre Mitgliedsnummer: <span tal:replace="view/mnr"/></h3>
+			<p>Bitte kontrollieren Sie Ihre Bestellung noch einmal und bestätigen diese dann.</p>
+			<aside class="portlet-column col-lg-9">
+
+                                        <!--<div class="mp-portlet portlet portletStaticText portlet-static-videos-alles-aus-einer-hand col-xs-12">
+
+                                           <h4 class="portletHeader">
+                                               <span class="portletTopLeft">
+                                               Artikel
+                                               </span>
+
+                                               <span class="portletTopRight number">
+                                               Preis
+                                               </span>
+
+                                           </h4>
+
+                                           <div class="list-group portletItem odd col-xs-12">
+                                               <ul>
+                                                    <li tal:condition="not: view/verif" tal:repeat="art artlist" class="col-xs-12">
+                                                        <span class="col-xs-10"><span tal:replace="art/menge"/> x <span tal:replace="art/titel"/>
+                                                        (<span tal:replace="art/matnr"/>)</span>
+                                                        <span class="overview-table col-xs-1"><span tal:replace="art/preis"/> €</span>
+                                                    </li>
+                                                    <li tal:condition="view/verif" tal:repeat="art artlist" class="col-xs-12">
+                                                        <span class="col-xs-10"><span tal:replace="art/menge"/> x <span tal:replace="art/titel"/>
+                                                        (<span tal:replace="art/matnr"/>)</span>
+                                                        <span class="overview-table col-xs-1"><span tal:replace="art/preis_mem"/> €</span>
+                                                    </li>
+                                                   <hr class="media-default col-xs-12">
+                                                    <li tal:condition="not: view/verif" class="col-xs-12">
+							<span class="col-xs-10">Versandkosten</span>
+                                                        <span class="overview-table col-xs-1">3,50 €</span>
+                                                    </li>
+                                                    <li tal:condition="view/verif" class="col-xs-12">
+                                                        <span class="col-xs-10">Versandkosten</span>
+                                                        <span class="overview-table col-xs-1">0,00 €</span>
+                                                    </li>
+                                               </ul>
+                                               <ul class="overview-table-total col-xs-12">             
+                                                    <hr class="media-default col-xs-12">
+						    <li tal:condition="not: view/verif" class="col-xs-12">
+							<span class="col-xs-10"><b>Summe Gesamt</b></span>
+                                                        <span class="overview-table col-xs-1"><b><span tal:replace="gesamt"/> €</b></span>
+                                                    </li>
+
+                                                    <li tal:condition="view/verif" class="col-xs-12">
+                                                        <span class="col-xs-10"><b>Summe Gesamt</b><span tal:condition="python: gesamt_mem=='0,00'">
+                                                        (Bestellung innerhalb der Freimengen)</span></span>
+                                                        <span class="overview-table col-xs-1"><b><span tal:replace="gesamt_mem"/> €</b></span>
+                                                    </li>
+                                           
+                                               </ul>
+
+                                                   <span class="portletBottomLeft"></span>
+                                                   <span class="portletBottomRight"></span>
+                                           </div>
+                                         </div>-->
+                             
+                                         <div class="col-xs-12">
+                 
+                                           <table class="table table-bordered">
+                                             <thead>
+                                               <th>Artikel</th>
+                                               <th>Menge</th>
+                                               <th tal:condition="python: view.is_user() == 'anon' or view.is_user() == 'mitglied'">Preis für Mitglieder</th>
+                                               <th tal:condition="python: view.is_user() == 'anon' or view.is_user() == 'notmitglied'">Preis für Nicht-Mitglieder</th>
+                                             </thead>
+
+                                             <tbody>
+                                               <tr tal:repeat="art artlist">
+                                                <td tal:attributes="style art/style">
+                                                  <span tal:replace="art/titel"/> (<span tal:replace="art/matnr"/>)</td>
+                                                <td class="text-center" tal:attributes="style art/style">
+                                                  <span tal:replace="art/menge"/></td>
+                                                <td class="text-right" tal:attributes="style art/style" 
+                                                  tal:condition="python: view.is_user() == 'anon' or view.is_user() == 'mitglied'">
+                                                  <span tal:replace="art/preis_mem"/> €</td>
+                                                <td class="text-right" tal:attributes="style art/style" 
+                                                  tal:condition="python: view.is_user() == 'anon' or view.is_user() == 'notmitglied'">
+                                                  <span tal:replace="art/preis"/> €</td>
+                                               </tr>
+                                               <tr>
+					        <td><b>Versandkosten</b></td>
+                                                <td></td>
+                                                <td class="text-right" tal:condition="python: view.is_user() == 'anon' or view.is_user() == 'mitglied'">0,00 €</td>
+                                                <td class="text-right" tal:condition="python: view.is_user() == 'anon' or view.is_user() == 'notmitglied'">3,50 €</td>
+                                               </tr>
+                                               <tr>
+                                                <td><b>Summe Gesamt</b></td>
+                                                <td></td>
+                                                <td class="text-right" tal:condition="python: view.is_user() == 'anon' or view.is_user() == 'mitglied'"><b><span tal:replace="gesamt_mem"/> €</b></td>
+                                                <td class="text-right" tal:condition="python: view.is_user() == 'anon' or view.is_user() == 'notmitglied'"><b><span tal:replace="gesamt"/> €</b></td>
+                                               </tr>
+                                             <tbody>
+                                           </table>
+
+                                         </div>
+                     
+
+                	</aside>
+		</div>
+		<div class="row mp-new-section">
+			<div class="row col-lg-9">
+
+			    <div class="col-lg-3 mp-portlet-column mp-register">
+				 <h4 class="portletHeader mp-headline">Rechnungsadresse</h4>
+				 <p><span tal:replace="rechnung/ANRED"/><br>
+				 <span tal:replace="rechnung/NAME1"/><br>
+				 <span tal:replace="rechnung/NAME2"/><br>
+				 <span tal:replace="rechnung/STRAS"/><br>
+				 <span tal:replace="rechnung/PSTLZ"/> <span tal:replace="rechnung/ORT01"/></p>
+			     </div>
+
+			     <div class="col-lg-3 mp-portlet-column mp-register">
+				 <h4 class="portletHeader mp-headline">Versandadresse</h4>
+				 <p><span tal:replace="versand/ANRED"/><br>
+				 <span tal:replace="versand/NAME1"/><br>
+				 <span tal:replace="versand/NAME2"/><br>
+				 <span tal:replace="versand/STRAS"/><br>
+				 <span tal:replace="versand/PSTLZ"/> <span tal:replace="rechnung/ORT01"/></p>
+			     </div>
+
+                	</div>
+		</div>
+
+               <div tal:condition="python: view.is_user() == 'anon'" class="row">
+               <h4 class="portletHeader mp-headline">Information zu den angezeigten Preisen</h4>
+               <p>Ihre Bestellübersicht zeigt die Preise an sowohl für Unternehmen, die bei der BG ETEM versichert sind, 
+                  als auch für Nicht-Mitgliedsbetriebe. Grund dafür ist, dass Sie sich soeben bzw. kürzlich im Medienportal 
+                  der BG ETEM registriert haben und die Prüfung Ihrer Mitgliedschaft noch nicht abgeschlossen ist.</p> 
+
+                <p>Sofern Ihre <b>Mitgliedschaft bei der BG ETEM</b> festgestellt wird, werden die bei den Artikeln genannten 
+                   kostenlosen Freimengen bei der Abwicklung Ihrer Bestellung berücksichtigt. Es werden für Ihre Bestellung 
+                   keine Versandkosten erhoben.</p>
+
+                <p>Für <b>Betriebe, die nicht bei der BG ETEM versichert sind</b>, sind unsere Medien grundsätzlich kostenpflichtig. 
+                   Freimengen können nicht in Anspruch genommen werden. Außerdem erheben wir pauschal Versandkosten in Höhe 
+                   von 3,50 € pro Bestellung.</p>
+               </div>
+
+		<div class="row mp-new-section">
+			<aside class="mp-portlet-column col-lg-9">
+
+			    <form enctype="multipart/form-data" method="post" novalidate="novalidate"
+				  action="." tal:attributes="action view/formurl">
+
+				 <div tal:define="widget python: view.fieldWidgets.get('form.field.agb')">
+				   <div metal:use-macro="here/@@formmacros/macros/bootstrapcheckbox" />
+				 </div>
+
+                     <div style="margin-bottom: 10px;">
+                     <a style="margin-top:10px;" class="internal-link" href="https://www.bgetem.de/die-bgetem/impressum/medienportal-agb">
+                        Allgemeine Geschäftsbedingungen der BG ETEM (AGB)</a><br/>
+                     <a style="margin-bottom:10px;" class="internal-link" href="https://www.bgetem.de/die-bgetem/datenschutz">Datenschutzerklärung der BG ETEM</a>
+                     </div>
+
+
+				 <div class="actions">
+				   <span class="action" tal:repeat="widget view/actionWidgets">
+				     <tal:widget tal:content="structure widget/render" />
+				   </span>
+				 </div>
+		            </form>
+
+                	</aside>
+		</div>
+
+		<!--<div class="row mp-new-section col-sm-5">
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                <div class="panel panel-accordion">
+                                        <div class="panel-heading-inverse" role="tab" id="heading1">
+                                                <a name="section-1"></a>
+                                                <h4 class="panel-title-inverse">
+                                                        <a role="button" data-parent="#accordion" href="#collapse1" aria-expanded="false" class="collapsed">Mit der Bestellung fortfahren</a>
+                                                </h4>
+                                        </div>
+                                        <div id="collapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading1" aria-expanded="false">
+                                        </div>
+                                </div>
+                        </div>
+		</div>-->	
+
+
+	</div>
+  </metal:block>
+
+</html>

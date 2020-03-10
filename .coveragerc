@@ -1,0 +1,6 @@
+[report]
+include =
+    src/bgetem/*
+omit =
+    */test*
+    */upgrades/*

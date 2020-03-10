@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  metal:use-macro="context/main_template/macros/master">
+<head>
+
+  <metal:cssslot fill-slot="style_slot">
+      <link rel="stylesheet" type="text/css"
+        tal:define="navroot context/@@plone_portal_state/navigation_root_url"
+        tal:attributes="href string:${navroot}/++resource++ukbg.medienportal/css/medien.css"
+        />
+  </metal:cssslot>
+
+  <metal:javascriptslot fill-slot="javascript_head_slot"
+      tal:define="navroot context/@@plone_portal_state/navigation_root_url">
+    <script tal:attributes="src string:${navroot}/++resource++ukbg.medienportal/js/medien.js"></script>
+  </metal:javascriptslot>
+
+</head>
+
+
+  <metal:block fill-slot="content-core">
+	<div class="mp-wrapper">
+		<div class="row">
+			<h4 class="mp-headline">
+				Vielen Dank für Ihre Bestellung!
+			</h4>
+		</div>
+		<div class="row mp-new-section">
+                        <h3>Ihre Bestellnummer: <span tal:replace="view/bestellnummer"/></h3>
+			<p>Wir werden Ihren Auftrag schnellstmöglich bearbeiten.<br>
+			In Kürze erhalten Sie eine Bestellbestätigung per E-Mail, der Sie alle wichtigen Informationen entnehmen können.</p>
+			<p>Bei Fragen können Sie uns kontaktieren unter: <a href="mailto:versand@bgetem.de">versand@bgetem.de</a>
+		</div>
+	</div>    
+  </metal:block>
+
+</html>

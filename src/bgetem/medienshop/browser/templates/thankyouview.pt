@@ -1,0 +1,6 @@
+<h1>Vielen Dank</h1>
+<p>Wir haben Ihre Bestellung erhalten</p>
+<a class="internal-link" href="" tal:attributes="href python: context.absolute_url()">zurück zum
+  Medienshop</a><br/>
+<a class="internal-link" href="" tal:attributes="href python: context.portal_url()">zurück zur Startseite</a>
+<p>Ihre Berufsgenossenschaft Handel und Warenlogistik</p>

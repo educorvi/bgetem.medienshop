@@ -1,0 +1,51 @@
+<div class="row" tal:define="artikelliste view/artikelliste">
+<div class="row" tal:content="structure provider:plone.abovecontenttitle"/>
+<h1>Artikelliste für redaktionelle Zwecke</h1>
+<div class="row" tal:content="structure provider:plone.belowcontenttitle"/>
+<ul>
+    <li><a tal:attributes="href python:context.absolute_url()+'/shopredaktion'">alle Artikel</a></li>
+    <li><a tal:attributes="href python:context.absolute_url()+'/shopredaktion?medium=K01'">Faltblätter</a></li>
+    <li><a tal:attributes="href python:context.absolute_url()+'/shopredaktion?medium=K03'">Broschüren</a></li>
+    <li><a tal:attributes="href python:context.absolute_url()+'/shopredaktion?medium=K04'">Multimedia</a></li>
+    <li><a tal:attributes="href python:context.absolute_url()+'/shopredaktion?medium=K05'">Plakate/Aushänge</a></li>
+    <li><a tal:attributes="href python:context.absolute_url()+'/shopredaktion?medium=K06'">Filme</a></li>
+    <li><a tal:attributes="href python:context.absolute_url()+'/shopredaktion?medium=K07'">Azubi-Pakete</a></li>
+    <li><a tal:attributes="href python:context.absolute_url()+'/shopredaktion?medium=K08'">Unternehmermodell-Ordner</a></li>
+    <li><a tal:attributes="href python:context.absolute_url()+'/shopredaktion?medium=K09'">Wandkalender</a></li>
+    <li><a tal:attributes="href python:context.absolute_url()+'/shopredaktion?medium=K10'">Anstecknadel, Aufkleber</a></li>
+    <li><a tal:attributes="href python:context.absolute_url()+'/shopredaktion?medium=K11'">Download Medien</a></li>
+    <li><a tal:attributes="href python:context.absolute_url()+'/shopredaktion?medium=P01'">DGUV-Vorschriften</a></li>
+    <li><a tal:attributes="href python:context.absolute_url()+'/shopredaktion?medium=P02'">DGUV-Regeln</a></li>
+    <li><a tal:attributes="href python:context.absolute_url()+'/shopredaktion?medium=P03'">DGUV-Informationen</a></li>
+    <li><a tal:attributes="href python:context.absolute_url()+'/shopredaktion?medium=P04'">DGUV-Grundsätze</a></li>
+    <li><a tal:attributes="href python:context.absolute_url()+'/shopredaktion?medium=P05'">Gesetze/Verordnungen</a></li>
+    <li><a tal:attributes="href python:context.absolute_url()+'/shopredaktion?medium=P08'">Download Regelwerk</a></li>
+</ul>
+
+<h2 tal:content="view/anzeige"/>
+<p><b>Anzahl der Artikel in dieser Kategorie: </b><span tal:content="view/artikelzahl"/></p>
+
+<table class="table table-bordered">
+  <thead>
+    <th>Bestellnummer</th>
+    <th>Titel</th>
+    <th>Bearbeiten</th>
+    <th>Warengruppe</th>
+    <th>Bestand</th>
+    <th>Workflow-Status</th>
+    <th>In den Warenkorb</th>
+  </thead>
+  <tbody>
+    <tr tal:repeat="artikel artikelliste">
+      <td tal:content="artikel/artikelnummer"/>
+      <td><a tal:attributes="href artikel/url" tal:content="artikel/title"/></td>
+      <td><a tal:attributes="href string:${artikel/url}/edit">bearbeiten</a></td>
+      <td tal:content="artikel/warengruppe"/>
+      <td tal:content="artikel/bestand"/>
+      <td tal:content="artikel/workflow"/>
+      <td><a tal:attributes="href string:${artikel/warenkorb}">in den Warenkorb</a></td>
+    </tr>
+  </tbody>
+</table>
+<div class="row" tal:content="structure provider:plone.belowcontentbody"/>
+</div>

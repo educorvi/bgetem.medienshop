@@ -1,0 +1,123 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  metal:use-macro="context/main_template/macros/master">
+<head>
+
+  <metal:cssslot fill-slot="style_slot">
+      <link rel="stylesheet" type="text/css"
+        tal:define="navroot context/@@plone_portal_state/navigation_root_url"
+        tal:attributes="href string:${navroot}/++resource++ukbg.medienportal/css/medien.css"
+        />
+  </metal:cssslot>
+
+  <metal:javascriptslot fill-slot="javascript_head_slot"
+      tal:define="navroot context/@@plone_portal_state/navigation_root_url">
+    <script tal:attributes="src string:${navroot}/++resource++ukbg.medienportal/js/medien.js"></script>
+  </metal:javascriptslot>
+
+</head>
+
+
+  <metal:block fill-slot="content-core">
+	<div class="mp-wrapper">
+			<div class="portlet-column">
+		<div class="col-sm-6">
+                                <div class="portlet portletStaticText portlet-static-videos-alles-aus-einer-hand">
+
+                                       <h4 class="portletHeader">
+                                           <span class="portletTopLeft"></span>
+                                           <span>
+                                              Einloggen
+                                           </span>
+                                           <span class="portletTopRight"></span>
+                                       </h4>
+
+                                       <div class="list-group portletItem odd">
+                                           <p><a href="#" target="_self" title=""></a></p>
+                                           <p>Bitte geben Sie Ihre E-Mail Adresse und Ihr Passwort an, um mit der Bestellung fortzufahren.</p>
+                                            <form enctype="multipart/form-data" method="post" novalidate="novalidate"
+                                                  action="." tal:attributes="action view/formurl">
+
+                                                  <div tal:define="widget python: view.fieldWidgets.get('form.field.email')">
+                                                    <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+                                                  </div>
+
+                                                  <div tal:define="widget python: view.fieldWidgets.get('form.field.passwort')">
+                                                    <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+                                                  </div>
+
+                                                  <div class="actions">
+                                                    <span class="action" tal:repeat="widget view/actionWidgets">
+                                                      <tal:widget tal:content="structure widget/render" />
+                                                    </span>
+                                                  </div>
+                                           </form>
+
+                                               <span class="portletBottomLeft"></span>
+                                               <span class="portletBottomRight"></span>
+                                       </div>
+                        	</div>
+                        	</div>
+
+				<!--second portlet -->
+		<div class="col-sm-6">
+			        <div class="portlet portletStaticText portlet-static-videos-alles-aus-einer-hand">
+
+                                       <h4 class="portletHeader">
+                                           <span class="portletTopLeft"></span>
+                                           <span>
+                                              Registrieren
+                                           </span>
+                                           <span class="portletTopRight"></span>
+                                       </h4>
+
+                                       <div class="list-group portletItem odd">
+                                           <p><a href="#" target="_self" title=""></a></p>
+                                           <p>Registrieren Sie sich jetzt bei der BGETEM und bestellen Sie auch in Zukunft schnell und einfach 
+                                              Produkte aus unserem Medienshop.</p>
+                                           <form>
+                                                <div class="form-group mp-login">
+                                                	 <div class="mp-wrapper">
+                                                        	<div class="row mp-new-section">
+                                                                	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                                                        	<div class="panel panel-accordion">
+                                                                                	<div class="panel-heading-inverse" role="tab" id="heading1">
+                                                                                	        <a name="section-1"></a>
+                                                                        	                <h4 class="panel-title-inverse">
+                                                                	                                <a role="button" data-parent="#accordion" href="#collapse1" tal:attributes="href view/registerurl" aria-expanded="false" class="collapsed">Registrieren</a>
+                                                        	                                </h4>
+                                                	                                </div>
+                                        	                                        <div id="collapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading1" aria-expanded="false">
+                                	                                                </div>
+                        	                                                </div>
+                	                                                </div>
+        	                                                        <!--<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                                                                <div class="panel panel-accordion">
+                                                                                        <div class="panel-heading-inverse" role="tab" id="heading1">
+                                                                                                <a name="section-1"></a>
+                                                                                                <h4 class="panel-title-inverse">
+                                                                                                        <a role="button" data-parent="#accordion" href="#collapse1" aria-expanded="false" class="collapsed">Einmalig bestellen</a>
+                                                                                                </h4>
+                                                                                        </div>
+                                                                                        <div id="collapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading1" aria-expanded="false">
+                                                                                        </div>
+                                                                                </div>
+                                                                        </div>-->
+								</div>
+	                                                </div>
+
+						</div>
+                                           </form>
+
+                                               <span class="portletBottomLeft"></span>
+                                               <span class="portletBottomRight"></span>
+                                       </div>
+                        	</div>
+                        	</div>
+                	</div>
+	</div>    
+  </metal:block>
+
+</html>

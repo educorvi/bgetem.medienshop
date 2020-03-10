@@ -1,0 +1,16 @@
+<div class="row" tal:define="falselist view/falselist">
+    <h2>Import Tabelle Medienkonzept</h2>
+
+    <p>Datensätze Gesamt: <span tal:content="view/dataset"/> (incl. Leerzeilen!)</p>
+    <p>Datensätze verarbeitet: <span tal:content="view/goodlistcount"/></p>
+    <p>Datensätze fehlerhaft: <span tal:content="view/falselistcount"/></p>
+
+    <h2>Fehlerhafte Datensätze</h2>
+
+    <table class="table table-bordered">
+      <tr tal:repeat="obj falselist">
+        <td tal:content="python: obj[0]"/>
+        <td tal:content="python: obj[1]"/>
+      </tr>
+    </table>
+</div>

@@ -1,0 +1,26 @@
+<div style="margin-bottom:10px;" tal:condition="viewlet.available" class="col-md-12 col-xs-12">
+    <div tal:condition="viewlet.card and viewlet.shopbutton" class="btn-group">
+    <a href="#" class="btn btn-success btn-sm" role="button" tal:attributes="href viewlet.shop_url">
+      <span class="glyphicon glyphicon-shopping-cart"/> Warenkorb <span class="badge" tal:content="viewlet.artikel"/></a> 
+    </div>
+    <div tal:condition="viewlet.card" class="btn-group">
+    <a href="#" class="btn btn-danger btn-sm" role="button" tal:attributes="href viewlet.del_link">
+      <span class="glyphicon glyphicon-remove-circle"/> Warenkorb leeren</a>
+    </div>
+    <div tal:condition="not: viewlet.email" class="btn-group">
+    <a href="#" class="btn btn-primary btn-sm" role="button" tal:attributes="href viewlet.login_link">
+      <span class="glyphicon glyphicon-user"/> Anmelden / Registrieren</a>
+    </div>
+    <div tal:condition="viewlet.email" class="btn-group">
+	  <button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	  <span class="glyphicon glyphicon-user"/> <span tal:replace="viewlet.email"/> <span class="caret"></span>
+	  </button>
+	  <ul class="dropdown-menu">
+	    <li><a href="#" tal:attributes="href viewlet.changepw_link">Passwort ändern</a></li>
+	    <li><a href="#" tal:attributes="href viewlet.changeadr_link">Adressdaten ändern</a></li>
+	    <li role="separator" class="divider"></li>
+	    <li><a href="#" tal:attributes="href viewlet.userdel_link">Benutzerkonto löschen</a></li>
+	    <li><a href="#" tal:attributes="href viewlet.logout_link">Abmelden</a></li>
+	  </ul>
+     </div>
+</div>

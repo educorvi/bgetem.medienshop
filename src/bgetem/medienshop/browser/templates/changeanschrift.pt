@@ -1,0 +1,206 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  metal:use-macro="context/main_template/macros/master">
+<head>
+
+  <metal:cssslot fill-slot="style_slot">
+      <link rel="stylesheet" type="text/css"
+        tal:define="navroot context/@@plone_portal_state/navigation_root_url"
+        tal:attributes="href string:${navroot}/++resource++ukbg.medienportal/css/medien.css"
+        />
+  </metal:cssslot>
+
+  <metal:javascriptslot fill-slot="javascript_head_slot"
+      tal:define="navroot context/@@plone_portal_state/navigation_root_url">
+    <script tal:attributes="src string:${navroot}/++resource++ukbg.medienportal/js/medien.js"></script>
+  </metal:javascriptslot>
+
+</head>
+
+
+  <metal:block fill-slot="content-core">
+<div class="mp-wrapper"
+     tal:define="data view/userdata;
+                 rechnung python:data.get('item')[0];
+                 versand python:data.get('item')[1];
+                 formurl view/formurl">
+
+	<div class="row">
+
+            <h2>Adressdaten prüfen und ändern</h2>
+
+	    <span>Bitte kontrollieren Sie, ob Ihre Rechnungsadresse und Ihre Versandadresse korrekt sind und korrigieren Sie diese, wenn nötig.</span>
+		      
+	    <div class="col-lg-3 mp-portlet-column mp-register">
+		 <h4 class="portletHeader mp-headline">Rechnungsadresse</h4>
+		 <p><span tal:replace="rechnung/ANRED"/><br>
+		 <span tal:replace="rechnung/NAME1"/><br>
+		 <span tal:condition="rechnung/NAME2" tal:content="rechnung/NAME2"/><br tal:condition="rechnung/NAME2"/>
+		 <span tal:condition="rechnung/NAME3" tal:content="rechnung/NAME3"/><br tal:condition="rechnung/NAME3"/>
+		 <span tal:condition="rechnung/NAME4" tal:content="rechnung/NAME4"/><br tal:condition="rechnung/NAME4"/>
+		 <span tal:replace="rechnung/STRAS"/><br>
+		 <span tal:replace="rechnung/PSTLZ"/> <span tal:replace="rechnung/ORT01"/></p>
+	     </div>
+	    
+	     <div class="col-lg-3 mp-portlet-column mp-register">
+		 <h4 class="portletHeader mp-headline">Versandadresse</h4>
+		 <p><span tal:replace="versand/ANRED"/><br>
+		 <span tal:replace="versand/NAME1"/><br>
+		 <span tal:condition="versand/NAME2" tal:replace="versand/NAME2"/><br tal:condition="versand/NAME2"/>
+		 <span tal:condition="versand/NAME3" tal:replace="versand/NAME3"/><br tal:condition="versand/NAME3"/>
+		 <span tal:condition="versand/NAME4" tal:replace="versand/NAME4"/><br tal:condition="versand/NAME4"/>
+		 <span tal:replace="versand/STRAS"/><br>
+		 <span tal:replace="versand/PSTLZ"/> <span tal:replace="versand/ORT01"/></p>
+	     </div>
+	</div>
+	<div class="row mp-register">                                 
+	     <h4 class="panel-title-inverse mp-panel">
+		<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expand="false" aria-controls="collapse1" class="collapsed">
+		<span class="glyphicon glyphicon-chevron-right"></span>&nbsp;Kontaktdaten ändern
+		</a>
+	     </h4>
+	     <div id="collapse1" class="panel-collapse collapse" tal:attributes="class view/collapse" role="tabpanel" aria-labelledby="heading1" aria-expanded="false">
+		<div class="panel-body">
+		  <p class="documentDescription">Bitte füllen Sie das folgende Formular aus, um mit der Bestellung fortzufahren.<br/>
+                  <span style="color:#d40f14">Mit (*) gekennzeichnete Felder müssen ausgefüllt werden.</span></p>
+
+                    <form enctype="multipart/form-data" method="post" novalidate="novalidate"
+                          action="." tal:attributes="action view/formurl">
+
+			 <h3>Rechnungsanschrift</h3>
+
+			 <div tal:define="widget python: view.fieldWidgets.get('form.field.anrede')">
+			   <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+			 </div>
+
+			 <div tal:define="widget python: view.fieldWidgets.get('form.field.name1')">
+			   <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+			 </div>
+
+			 <div tal:define="widget python: view.fieldWidgets.get('form.field.name2')">
+			   <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+			 </div>
+
+			 <div tal:define="widget python: view.fieldWidgets.get('form.field.name3')">
+			   <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+			 </div>
+
+			 <div tal:define="widget python: view.fieldWidgets.get('form.field.name4')">
+			   <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+			 </div>
+
+			 <div tal:define="widget python: view.fieldWidgets.get('form.field.strasse')">
+			   <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+			 </div>
+
+			 <div tal:define="widget python: view.fieldWidgets.get('form.field.plz')">
+			   <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+			 </div>
+
+			 <div tal:define="widget python: view.fieldWidgets.get('form.field.meinort')">
+			   <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+			 </div>
+
+			 <div tal:define="widget python: view.fieldWidgets.get('form.field.land')">
+			   <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+			 </div>
+
+
+			 <h3>Versandanschrift</h3>
+
+			 <div tal:define="widget python: view.fieldWidgets.get('form.field.anrede_v')">
+			   <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+			 </div>
+
+			 <div tal:define="widget python: view.fieldWidgets.get('form.field.name1_v')">
+			   <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+			 </div>
+
+			 <div tal:define="widget python: view.fieldWidgets.get('form.field.name2_v')">
+			   <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+			 </div>
+
+			 <div tal:define="widget python: view.fieldWidgets.get('form.field.name3_v')">
+			   <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+			 </div>
+
+			 <div tal:define="widget python: view.fieldWidgets.get('form.field.name4_v')">
+			   <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+			 </div>
+
+			 <div tal:define="widget python: view.fieldWidgets.get('form.field.strasse_v')">
+			   <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+			 </div>
+
+			 <div tal:define="widget python: view.fieldWidgets.get('form.field.plz_v')">
+			   <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+			 </div>
+
+			 <div tal:define="widget python: view.fieldWidgets.get('form.field.ort_v')">
+			   <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+			 </div>
+
+			 <div tal:define="widget python: view.fieldWidgets.get('form.field.land_v')">
+			   <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+			 </div>
+
+
+                         <div tal:define="widget python: view.fieldWidgets.get('form.field.telefon')">
+                           <div metal:use-macro="here/@@formmacros/macros/bootstrapfields" />
+                         </div>
+
+                         <div class="actions">
+                           <span class="action" tal:repeat="widget view/actionWidgets">
+                             <tal:widget tal:content="structure widget/render" />
+                           </span>
+                         </div>
+	       </form>
+	</div>
+    </div>
+ </div>
+
+<div tal:condition="view/card" class="row">
+<div class="mp-wrapper">
+			<div class="row mp-new-section col-sm-5">
+				<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+					<div class="panel panel-accordion">
+						<div class="panel-heading-inverse" role="tab" id="heading1">
+							<a name="section-1" id="section-1"></a>
+							<h4 tal:condition="view/card" class="panel-title-inverse">
+								<a role="button" data-parent="#accordion" href="#collapse1" tal:attributes="href view/weiterurl" aria-expanded="false" class="collapsed">Mit Bestellung fortfahren</a>
+							</h4>
+						</div>
+						<div id="collapse1" class="" role="tabpanel" aria-labelledby="heading1" aria-expanded="false">
+						</div>
+					</div>
+				</div>
+			</div>
+</div>
+</div>
+<div class="row">
+<div class="mp-wrapper">
+                        <div class="row mp-new-section col-sm-5">
+                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                        <div class="panel panel-accordion">
+                                                <div class="panel-heading-inverse" role="tab" id="heading1">
+                                                        <a name="section-1" id="section-1"></a>
+                                                        <h4 class="panel-title-inverse">
+                                                                <a role="button" data-parent="#accordion" href="#collapse2" tal:attributes="href view/homeurl" aria-expanded="false" class="collapsed">Artikel auswählen</a>
+                                                        </h4>
+                                                </div>
+                                                <div id="collapse2" class="" role="tabpanel" aria-labelledby="heading1" aria-expanded="false">
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+
+		</div>
+
+</div>
+</div>
+
+  </metal:block>
+
+</html>

@@ -1,0 +1,4 @@
+graft src/bgetem
+graft docs
+include *.rst
+global-exclude *.pyc

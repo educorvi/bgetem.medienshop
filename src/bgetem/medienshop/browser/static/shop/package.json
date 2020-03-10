@@ -1,0 +1,52 @@
+{
+  "name": "shop",
+  "version": "0.1.0",
+  "private": true,
+  "spdx": false,
+  "license": "SPDX(MIT)",
+  "scripts": {
+    "serve-karl": "vue-cli-service serve --open --host 62.210.125.78 --disableHostCheck=true",
+    "serve": "vue-cli-service serve --open",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "babel-polyfill": "^6.26.0",
+    "document-register-element": "^1.8.1",
+    "vue": "^2.5.13",
+    "vue-axios": "^2.1.1",
+    "vue-currency-filter": "^2.1.1",
+    "vue-infinite-loading": "^2.3.1",
+    "vue-custom-element": "^3.0.0",
+    "vue-full-loading": "^1.2.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.0.0-beta.6",
+    "@vue/cli-plugin-eslint": "^3.0.0-beta.6",
+    "@vue/cli-service": "^3.0.0-beta.6",
+    "vue-template-compiler": "^2.5.13"
+  },
+  "babel": {
+    "presets": [
+      "@vue/app"
+    ]
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ]
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}

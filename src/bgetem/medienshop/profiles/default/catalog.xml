@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<object name="portal_catalog">
+    <index name="Artikelnummer" meta_type="FieldIndex">
+        <indexed_attr value="Artikelnummer"/>
+    </index>
+    <index name="Medienart" meta_type="FieldIndex">
+        <indexed_attr value="Medienart"/>
+    </index>
+    <index name="Themen" meta_type="KeywordIndex">
+        <indexed_attr value="Themen"/>
+    </index>
+    <index name="Zielgruppen" meta_type="KeywordIndex">
+        <indexed_attr value="Zielgruppen"/>
+    </index>
+    <index name="Branchen" meta_type="KeywordIndex">
+        <indexed_attr value="Branchen"/>
+    </index>
+    <index name="Handlungsebenen" meta_type="KeywordIndex">
+        <indexed_attr value="Handlungsebenen"/>
+    </index>
+    <index name="Medienkonzept" meta_type="FieldIndex">
+        <indexed_attr value="Medienkonzept"/>
+    </index>
+    <column value="Artikelnummer"/>
+    <column value="Medienart"/>
+    <column value="Themen"/>
+    <column value="Zielgruppen"/>
+    <column value="Branchen"/>
+    <column value="Handlungsebenen"/>
+    <column value="Medienkonzept"/>
+</object>

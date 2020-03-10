@@ -1,0 +1,213 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  metal:use-macro="context/main_template/macros/master">
+<head>
+
+  <metal:cssslot fill-slot="style_slot">
+      <link rel="stylesheet" type="text/css"
+        tal:define="navroot context/@@plone_portal_state/navigation_root_url"
+        tal:attributes="href string:${navroot}/++resource++ukbg.medienportal/css/medien.css"
+        />
+  </metal:cssslot>
+
+  <metal:javascriptslot fill-slot="javascript_head_slot"
+      tal:define="navroot context/@@plone_portal_state/navigation_root_url">
+    <script tal:attributes="src string:${navroot}/++resource++ukbg.medienportal/js/medien.js"></script>
+  </metal:javascriptslot>
+
+</head>
+
+
+  <metal:block fill-slot="content-core">
+<div class="mp-wrapper">
+    <div class="row">
+	<div class="col-lg-12">
+           <form enctype="multipart/form-data" method="post" novalidate="novalidate"
+                  action="." tal:attributes="action view/formurl">
+    		<div class="input-group">
+      			<input type="text" class="form-control mp-search-input" name="suchtext" placeholder="Geben Sie einen Suchbegriff ein...">
+      			<span class="input-group-btn">
+        			<button class="btn btn-default mp-search" type="button">
+					<span class="glyphicon glyphicon-search"></span>
+				</button>
+      			</span>
+    		</div><!-- /input-group -->
+           </form>
+  	</div>
+    </div>
+    
+    <div class="row">
+	<div class="btn-group mp-filter col-md-3 col-xs-12">
+		<button type="button" class="btn mp-btn-default mp-drop">Themen von A bis Z</button>
+		<button type="button" class="btn mp-btn-default dropdown-toggle"data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<span class="caret"></span>
+			<span class="sr-only">Toggle Dropdown</span>
+		</button>
+		<ul class="dropdown-menu" tal:define="themen view/themen">
+		  <li tal:repeat="term themen"><a href="#" 
+		    tal:attributes="href python:'http://test-etem.bg-kooperation.de/medienportal/artikelliste?crit=Themen&wert=' + term.value" 
+		    tal:content="python:term.title">Thema</a></li>
+		</ul>
+	</div>
+
+	<div class="btn-group mp-filter col-md-3 col-xs-12">
+		<button type="button" class="btn mp-btn-default mp-drop">Zielgruppe</button>
+		<button type="button" class="btn mp-btn-default dropdown-toggle"data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<span class="caret"></span>
+			<span class="sr-only">Toggle Dropdown</span>
+		</button>
+		<ul class="dropdown-menu" tal:define="zielgruppen view/zielgruppen">
+		  <li tal:repeat="term zielgruppen"><a href="#" 
+		    tal:attributes="href python:'http://test-etem.bg-kooperation.de/medienportal/artikelliste?crit=Zielgruppen&wert=' + term.value" 
+		    tal:content="python:term.title">Zielgruppe</a></li>
+		</ul>
+	</div>
+	
+	<div class="btn-group mp-filter col-md-3 col-xs-12">
+		<button type="button" class="btn mp-btn-default mp-drop">Medienart</button>
+		<button type="button" class="btn mp-btn-default dropdown-toggle"data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<span class="caret"></span>
+			<span class="sr-only">Toggle Dropdown</span>
+		</button>
+		<ul class="dropdown-menu" tal:define="medienarten view/medienarten">
+		  <li tal:repeat="term medienarten"><a href="#" 
+		    tal:attributes="href python:'http://test-etem.bg-kooperation.de/medienportal/artikelliste?crit=Medienart&wert=' + term.value" 
+		    tal:content="python:term.title">Medienart</a></li>
+		</ul>
+	</div>
+
+	<div class="btn-group mp-filter col-md-3 col-xs-12">
+		<button type="button" class="btn mp-btn-default mp-drop">Branche</button>
+		<button type="button" class="btn mp-btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<span class="caret"></span>
+			<span class="sr-only">Toggle Dropdown</span>
+		</button>
+		<ul class="dropdown-menu" tal:define="branchen view/branchen">
+                  <li tal:repeat="term branchen"><a href="#" 
+                    tal:attributes="href python:'http://test-etem.bg-kooperation.de/medienportal/artikelliste?crit=Branchen&wert=' + term.value" 
+                    tal:content="python:term.title">Branche</a></li>
+		</ul>
+	</div>				
+    </div>
+    <!--
+    <div class="row">
+	<p class="mp-filter-display col-lg-2 col-sm-3">Gesetzte Filter:</p>
+	<button type="button" class="btn mp-btn-secondary mp-btn-sm">Medienart 2&nbsp;
+		<span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+	</button>
+	
+	<button type="button" class="btn mp-btn-secondary mp-btn-sm">Zielgruppe 1&nbsp;
+		<span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+	</button>
+
+	<button type="button" class="btn mp-btn-secondary mp-btn-sm">Zielgruppe2 und deren Untergruppen&nbsp;
+		<span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+	</button>
+
+	<button type="button" class="btn mp-btn-secondary mp-btn-sm">Thema 3&nbsp;
+		<span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+	</button>
+    </div>
+    -->
+    <!--
+    <div class="row">
+	<div class="col-xs-12 col-sm-7">
+	<p class="mp-filter-display col-sm-6 col-xs-12">Ergebnisse sortieren nach:</p>
+	<div class="btn-group mp-item-organization col-xs-12 col-sm-2">
+		<button class="btn mp-btn-default mp-btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Neueste zuerst<span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu">
+			....
+		</ul>
+	</div>
+	</div>
+	<p class="mp-filter-display-number col-xs-12 col-sm-3" tal:content="view/listingnumber">Gefundene Artikel:22</p>
+    </div>
+    -->
+
+    <div class="row">
+      <p class="mp-filter-display-number col-xs-12 col-sm-3" tal:content="view/listingnumber">Gefundene Artikel:22</p>
+    </div>
+
+
+                <div class="row" tal:repeat="entry view/listingobjects">
+                        <hr class="media-default">
+                        <div class="media col-lg-9">
+                                <a class="col-xs-12" href="#" tal:attributes="href entry/artikel">
+                                        <div class="article-image col-sm-3 col-xs-6">
+                                                <img class="media-object img-responsive" tal:attributes="src entry/titelbild">
+                                        </div>
+                                        <div class="col-sm-9 col-xs-12">
+                                                <h3 class="newsDescription" tal:content="entry/title">Titel</h3>
+                                                <p class="tileBody">
+                                                        <span class="bgetem_folder_description" tal:content="entry/desc">Beschreibung</span>
+                                                </p>
+                                        </div>
+                                </a>
+                        </div>
+                        <div class="mp-price-table col-lg-3">
+                                <div class="list-group">
+                                        <p class="list-group-item disabled" tal:content="structure entry/textversicherte">
+                                        </p>
+                                        <div class="list-group-item">
+                                                <p class="mp-order-info" tal:content="structure entry/textbesteller">
+                                                </p>
+                                                <div class="mp-wrapper">
+                                                        <div class="row mp-new-section">
+                                                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                                                        <div class="panel panel-accordion">
+                                                                                <div class="panel-heading-inverse" role="tab" id="heading1">
+                                                                                        <a name="section-1"></a>
+                                                                                        <h4 class="panel-title-inverse">
+                                                                                                <a role="button" data-parent="#accordion" href="#collapse1" aria-expanded="false" aria-controls="collapse1" class="collapsed" tal:attributes="href entry/artikel">Details</a>
+                                                                                        </h4>
+                                                                                </div>
+                                                                                <div id="collapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading1" aria-expanded="false">
+                                                                                </div>
+                                                                        </div>
+                                                                </div>
+                                                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                                                        <div class="panel panel-accordion">
+                                                                                <div class="panel-heading-inverse" role="tab" id="heading1">
+                                                                                        <a name="section-1"></a>
+                                                                                        <h4 class="panel-title-inverse">
+                                                                                                <a role="button" data-parent="#accordion" href="#collapse1" aria-expanded="false" aria-controls="collapse1" class="collapsed" tal:attributes="href entry/warenkorb">Jetzt bestellen</a>
+                                                                                        </h4>
+                                                                                </div>
+                                                                                <div id="collapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading1" aria-expanded="false">
+                                                                                </div>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                                <p tal:condition="python: not entry.get('downloads') and not entry.get('bestand')">
+                                                  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span><em>zurzeit nicht lieferbar</em></p>
+                                                <p tal:condition="python: not entry.get('downloads') and entry.get('bestand')">
+                                                  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span><em>sofort lieferbar</em></p>
+                                                <p tal:condition="entry/downloads">
+                                                  <span class="glyphicon glyphicon-save" aria-hidden="true"></span><em>nur durch Download möglich</em></p>
+            
+                                        </div>
+                                </div>
+                        </div>
+                <div class="row mp-list-devider">
+                        <hr class="media-default">
+                        <p class="col-lg-3"><em><strong>Medienart:</strong></em> <span tal:content="entry/medienart"/></p>
+                        <p class="col-lg-3"><em><strong>Bestellnummer:</strong></em> <span tal:content="entry/artnr"/></p>
+                </div>
+                </div>
+
+
+
+
+
+
+
+
+</div>
+
+  </metal:block>
+
+</html>

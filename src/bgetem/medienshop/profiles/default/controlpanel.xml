@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<object
+    name="portal_controlpanel"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="bgetem.medienshop">
+
+    <configlet
+        title="Medienportal Einstellungen"
+        action_id="bgetem.medienshop.settings"
+        appId="bgetem.medienshop"
+        category="Products"
+        condition_expr=""
+        url_expr="string:${portal_url}/@@medienportal-settings"
+        icon_expr=""
+        visible="True"
+        i18n:attributes="title">
+            <permission>Manage portal</permission>
+    </configlet>
+</object>

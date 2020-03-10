@@ -1,0 +1,82 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:grok="http://namespaces.zope.org/grok"
+    i18n_domain="bgetem.medienshop">
+
+  <i18n:registerTranslations directory="locales" />
+
+  <includeDependencies package="." />
+  <include package="collective.beaker" />
+
+  <include package=".browser" />
+  <include package="five.grok" />
+
+  <grok:grok package="." />
+
+  <genericsetup:registerProfile
+      name="default"
+      title="bgetem.medienshop"
+      directory="profiles/default"
+      description="Installs the bgetem.medienshop add-on."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      post_handler=".setuphandlers.post_install"
+      />
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="bgetem.medienshop (uninstall)"
+      directory="profiles/uninstall"
+      description="Uninstalls the bgetem.medienshop add-on."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      post_handler=".setuphandlers.uninstall"
+      />
+
+
+  <utility
+      factory=".setuphandlers.HiddenProfiles"
+      name="bgetem.medienshop-hiddenprofiles" />
+
+  <utility
+      provides="sapshopapi.interfaces.ISAPShopConnection"
+      factory=".sap.setup_sap_connection"
+    />
+
+  <utility
+      provides=".mongoutil.IMongoConnection"
+      factory=".mongoutil.setup_mongo"
+    />
+
+  <utility
+      component=".vocabularies.UserFriendlyBranchenVocabularyFactory"
+      name="bgetem.medienshop.ReallyUserFriendlyBranchen"
+    />
+
+  <utility
+      component=".vocabularies.UserFriendlyZielgruppenVocabularyFactory"
+      name="bgetem.medienshop.ReallyUserFriendlyZielgruppen"
+    />
+
+  <utility
+      component=".vocabularies.UserFriendlyMedienartenVocabularyFactory"
+      name="bgetem.medienshop.ReallyUserFriendlyMedienarten"
+    />
+
+  <utility
+      component=".vocabularies.UserFriendlyThemenVocabularyFactory"
+      name="bgetem.medienshop.ReallyUserFriendlyThemen"
+    />
+
+  <browser:page
+      name="medienportal-settings"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".settings.MedienportalPanelView"
+      permission="cmf.ManagePortal"
+    />
+
+  <adapter name="SearchableText" factory=".Artikel.SearchableText" />
+  <adapter name="Webcode" factory=".Artikel.IndexWebcode" />
+
+</configure>

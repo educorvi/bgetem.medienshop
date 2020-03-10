@@ -1,0 +1,10 @@
+<div style="margin-top:10px;" class="col-md-12">
+  <form tal:attributes="action viewlet.shop">  	
+  <div class="input-group">
+	  <input type="text" name="suchtext" placeholder="Geben Sie einen Suchbegriff ein..." class="form-control mp-search-input">
+	  <span class="input-group-btn">
+		  <button type="submit" class="btn btn-default mp-search"><span class="glyphicon glyphicon-search"></span></button>
+	  </span>
+  </div>
+  </form>
+</div>

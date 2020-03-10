@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<registry>
+  <records interface="bgetem.medienshop.settings.IMedienportalSettings" prefix="bgetem.medienshop.settings.IMedienportalSettings"/>	
+  <records interface="plone.app.querystring.interfaces.IQueryField"
+           prefix="plone.app.querystring.field.Branchen">
+    <value key="title">Branchen</value>
+    <value key="description">Wir fragen nach der Branche</value>
+    <value key="enabled">True</value>
+    <value key="sortable">False</value>
+    <value key="operations">
+        <element>plone.app.querystring.operation.selection.is</element>
+   </value>
+    <value key="vocabulary">bgetem.medienshop.ReallyUserFriendlyBranchen</value>
+    <value key="group">BGETEM</value>
+  </records>
+  <records interface="plone.app.querystring.interfaces.IQueryField"
+           prefix="plone.app.querystring.field.Medienart">
+    <value key="title">Medienart</value>
+    <value key="description">Wir fragen nach der Medienart</value>
+    <value key="enabled">True</value>
+    <value key="sortable">False</value>
+    <value key="operations">
+        <element>plone.app.querystring.operation.selection.is</element>
+   </value>
+    <value key="vocabulary">bgetem.medienshop.ReallyUserFriendlyMedienarten</value>
+    <value key="group">BGETEM</value>
+  </records>
+  <records interface="plone.app.querystring.interfaces.IQueryField"
+           prefix="plone.app.querystring.field.Themen">
+    <value key="title">Themen</value>
+    <value key="description">Wir fragen nach dem Thema</value>
+    <value key="enabled">True</value>
+    <value key="sortable">False</value>
+    <value key="operations">
+        <element>plone.app.querystring.operation.selection.is</element>
+   </value>
+    <value key="vocabulary">bgetem.medienshop.ReallyUserFriendlyThemen</value>
+    <value key="group">BGETEM</value>
+  </records>
+  <records interface="plone.app.querystring.interfaces.IQueryField"
+           prefix="plone.app.querystring.field.Zielgruppen">
+    <value key="title">Zielgruppen</value>
+    <value key="description">Wir fragen nach den Zielgruppen</value>
+    <value key="enabled">True</value>
+    <value key="sortable">False</value>
+    <value key="operations">
+        <element>plone.app.querystring.operation.selection.is</element>
+   </value>
+    <value key="vocabulary">bgetem.medienshop.ReallyUserFriendlyZielgruppen</value>
+    <value key="group">BGETEM</value>
+  </records>
+  
+</registry>

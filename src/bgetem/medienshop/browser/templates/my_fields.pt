@@ -1,0 +1,25 @@
+<span metal:define-macro="myfields">
+          <label style="display: inline;"
+                 class="field-label" for="#"
+                 tal:attributes="for widget/htmlId"
+                 tal:content="widget/title">
+            Label
+          </label>
+          <span class="field-required"
+                tal:condition="widget/required">*</span>
+          <br />
+          <tal:description tal:condition="widget/description">
+            <span class="field-description"
+                  tal:content="widget/description">
+            </span><br />
+          </tal:description>
+          <tal:error tal:define="error widget/error"
+                     tal:condition="error">
+            <span class="error"
+                  tal:content="error/title">
+              Error
+            </span>
+            <br />
+          </tal:error>
+          <tal:widget tal:content="structure widget/render" />
+</span>

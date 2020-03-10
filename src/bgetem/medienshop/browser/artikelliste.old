@@ -1,0 +1,192 @@
+# -*- coding: utf-8 -*-
+import json
+import decimal
+from uvc.api import api
+from plone import api as ploneapi
+from zope.interface import Interface
+from Products.CMFCore.utils import getToolByName
+from Products.ATContentTypes.interface import IATTopic
+from plone.app.collection.interfaces import ICollection
+from Products.CMFCore.interfaces import IFolderish
+
+from bgetem.medienshop.interfaces import (
+    BRANCHEN, themenabisz, bgetembranchen, bgetemzielgruppen, bgetemmedienart)
+
+
+try:
+    from collective.solr.parser import SolrResponse
+    Solr = True
+except:
+    Solr = False
+
+
+api.templatedir('templates')
+
+
+def getPlaceholder(medienart, artikelnummer):
+    if medienart == 'K07':
+        return 'azubipaket.jpg'
+    if medienart in ['P01', 'P02', 'P03', 'P04', 'P05', 'P08']:
+        return 'regelwerk.jpg'
+    if artikelnummer.startswith('BZ'):
+        return 'betriebsanweisungen.jpg'
+    if artikelnummer in ['SZ019', 'SZ020', 'SZ021', 'SZ022', 'SZ023']:
+        return 'gbo.jpg'
+    if artikelnummer.startswith('SZ'):
+        return 'checklisten.jpg'
+    return 'shopping-cart.png'
+
+
+def formatMoney(price):
+    cents = decimal.Decimal('.01')
+    money = price.quantize(cents, decimal.ROUND_HALF_UP)
+    money = str(money).replace('.', ',')
+    return money
+
+
+def getVersandkosten():
+    return '3,50'
+
+
+def sizeof_fmt(num, suffix='Byte'):
+    for unit in ['','k','M','G','T','P','E','Z']:
+        if abs(num) < 1024.0:
+            return "%3.2f %s%s" % (num, unit, suffix)
+        num /= 1024.0
+    return "%.2f %s%s" % (num, 'Y', suffix)
+
+
+class Artikelliste(api.View):
+    api.context(Interface)
+
+    def getFiles(self, folder):
+        brains = folder.getFolderContents()
+        return [obj.getObject() for obj in brains if obj.portal_type == "File"]
+
+    def getArtikel(self):
+        allarts = ploneapi.content.find(
+            portal_type='Artikel',
+            sort_on='Artikelnummer',
+            review_state='published')
+
+        if self.request.get('suchtext'):
+            solrdicts = ploneapi.content.find(
+                portal_type='Artikel', batch=True, b_size=50,
+                SearchableText=self.request.get('suchtext'),
+                sort_on='Artikelnummer')
+
+            if Solr and isinstance(solrdicts, SolrResponse):
+                allarts = []
+                for i in solrdicts:
+                    allarts.append(ploneapi.content.find(UID = i.get('UID'))[0])
+            else:
+                allarts = solrdicts
+
+        elif self.request.get('crit'):
+            crit = self.request.get('crit')
+            wert = self.request.get('wert')
+            catquery = {'portal_type':'Artikel',
+                        'batch':True,
+                        'b_size':50,
+                        crit:wert}
+            allarts = ploneapi.content.find(**catquery)
+        return allarts
+
+    def getArticleJSON(self):
+        return json.dumps(self.listingobjects)
+
+    @staticmethod
+    def theme2dict(theme):
+        obj = {}
+        for category, subcategories in theme.items():
+            vocab = obj[category] = [term.title for term in subcategories]
+        return obj
+
+    @staticmethod
+    def theme2array(theme):
+        obj = [term.title for term in theme]
+        return obj
+
+    def getArtikelSelects(self):
+        vocabs = {
+            'themen': self.theme2array(themenabisz),
+            'zielgruppen': self.theme2array(bgetemzielgruppen),
+            'medienarten': self.theme2array(bgetemmedienart),
+            'branchen': self.theme2dict(BRANCHEN),
+        }
+        return json.dumps(vocabs)
+
+    def update(self):
+        listingobjects = []
+        self.medienarten = bgetemmedienart
+        self.themen = themenabisz
+        self.branchen = bgetembranchen
+        self.zielgruppen = bgetemzielgruppen
+        self.formurl = (
+            ploneapi.portal.get().absolute_url() +
+            '/medienportal/artikelliste')
+
+        allarts = self.getArtikel()
+        for art in allarts:
+            entry = {}
+            obj = art.getObject()
+            imagename = getPlaceholder(obj.medienart, obj.artikelnummer)
+            placeholderurl = (
+                ploneapi.portal.get().absolute_url() + '/' + imagename)
+
+            entry['titelbild'] = placeholderurl
+            if obj.titelbild:
+                img = "%s/@@images/titelbild" % obj.absolute_url()
+                entry['titelbild'] = img
+            entry['bildunterschrift'] = ''
+            if obj.bildunterschrift:
+                entry['bildunterschrift'] = obj.bildunterschrift
+            entry['title'] = obj.Title()
+            entry['artnr'] = obj.artikelnummer
+            entry['desc'] = obj.Description()
+            entry['downloads'] = False
+            entry['bestand'] = False
+            if obj.bestand > 0:
+                entry['bestand'] = True
+            if obj.medienart in [u'K11', u'P08']:
+                entry['downloads'] = True
+            freimenge = int(obj.freimenge)
+            preis_mem = formatMoney(obj.preis_mem)
+            preis = formatMoney(obj.preis)
+            entry['textversicherte'] = u'Versicherte Unternehmen:<br class="mp-only-bigscreen">%s Freiexemplare, jedes weitere Exemplar %s €' % (freimenge, preis_mem)
+            entry['textbesteller'] = u'Andere Besteller:<br class="mp-only-bigscreen">%s € zzgl. %s € Versandkosten</p>' % (preis, getVersandkosten())
+            entry['medienart'] = bgetemmedienart.getTerm(obj.medienart).title
+            entry['themen'] = []
+            if obj.abisz:
+                entry['themen'] = [themenabisz.getTerm(i).title for i in obj.abisz]
+            entry['zielgruppen'] = []
+            if obj.zielgruppen:
+                entry['zielgruppen'] = [bgetemzielgruppen.getTerm(i).title for i in obj.zielgruppen]
+            entry['branchen'] = []
+            if obj.branchen:
+                entry['branchen'] = [bgetembranchen.getTerm(i).title for i in obj.branchen]
+            entry['downloadurl'] = ''
+            entry['filename'] = ''
+            entry['downloadclass'] = ''
+            if obj.download:
+                entry['downloadurl'] = '%s/@@download/download' %obj.absolute_url()
+                entry['filetitle'] = obj.download.filename
+                filename = 'Datei'
+                if obj.filetitle:
+                    filename = obj.filetitle
+                entry['filename'] = "%s (%s / %s)" % (filename, 
+                                                  obj.download.contentType.split('/')[1], 
+                                                  sizeof_fmt(obj.download.size))
+                entry['downloadclass'] = 'download-link'
+            if self.getFiles(obj):
+                entry['downloadurl'] = obj.absolute_url()
+                entry['filename'] = 'zu den Downloads'
+                entry['filetitle'] = 'Downloads'
+                entry['downloadclass'] = 'internal-link'
+            #entry['sapcontent'] = obj.getSAPContent()
+            entry['artikel'] = obj.absolute_url()
+            entry['warenkorb'] = obj.absolute_url()+'/@@tocard?redirect=' + self.context.absolute_url()
+            listingobjects.append(entry)
+        self.listingobjects = listingobjects
+        self.listingnumber = "Gefundene Artikel: %s" % len(self.listingobjects)
+        print self.listingnumber

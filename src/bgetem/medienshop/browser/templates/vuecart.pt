@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  metal:use-macro="context/main_template/macros/master">
+<head>
+
+  <metal:cssslot fill-slot="style_slot">
+      <link rel="stylesheet" type="text/css"
+        tal:define="navroot context/@@plone_portal_state/navigation_root_url"
+        tal:attributes="href string:${navroot}/++resource++ukbg.medienportal/css/medien.css"
+        />
+      <link rel="stylesheet" type="text/css"
+        tal:define="navroot context/@@plone_portal_state/navigation_root_url"                
+        tal:attributes="href string:${navroot}/++resource++bgetem.medienshop/shop_build/css/app.css"
+        />
+  </metal:cssslot>
+
+  <metal:javascriptslot fill-slot="javascript_head_slot"
+      tal:define="navroot context/@@plone_portal_state/navigation_root_url">
+    <script tal:attributes="src string:${navroot}/++resource++ukbg.medienportal/js/medien.js"></script>
+
+    <script type="text/javascript"
+	    tal:condition="view/dev_vue_url"
+	    tal:attributes="src view/dev_vue_url"></script>
+
+    <tal:production_vue condition="not: view/dev_vue_url">
+      <script type="text/javascript" tal:attributes="src string:${navroot}/++resource++bgetem.medienshop/shop_build/js/chunk-vendors.js"></script>
+      <script type="text/javascript" tal:attributes="src string:${navroot}/++resource++bgetem.medienshop/shop_build/js/app.js"></script>
+      <!--
+      <script type="text/javascript" src="http://localhost:8080/app.js"> </script>
+      -->
+    </tal:production_vue>
+
+  </metal:javascriptslot>
+
+</head>
+
+
+<metal:block fill-slot="content-core">
+  <div class="mp-wrapper">
+    <div id="shopping-cart">
+      <hr />
+      <shop-cart tal:attributes="cart view/cart; shop_url view/getShopUrl; user view/is_user"></shop-cart>
+      <hr />
+    </div>
+  </div>
+</metal:block>
+
+</html>
